@@ -8,8 +8,6 @@ import Timer from './timer.js'
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
-
-
 Promise.all([
   createMario(),
   spritesLoader.loadBackgroundSprites(),
@@ -28,10 +26,13 @@ Promise.all([
     const spriteLayer = layers.createSpriteLayer(mario)
     comp.layers.push(spriteLayer)
 
-    const deltaTime = 1/60
- 
+    const timer = new Timer(1/60)
+    timer.update = function update(deltaTime) {
+        comp.draw(context)
+        mario.update(deltaTime)
+        mario.vel.y += gravity
+    }
 
-    update(0);
-    
+    timer.start()    
   })
 
