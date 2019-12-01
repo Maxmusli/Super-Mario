@@ -1,0 +1,23 @@
+{
+  "name": "super_mario",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maxmusli/Super-Mario.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Maxmusli/Super-Mario/issues"
+  },
+  "homepage": "https://github.com/Maxmusli/Super-Mario#readme",
+  "dependencies": {
+    "serve": "^11.2.0"
+  }
+}
