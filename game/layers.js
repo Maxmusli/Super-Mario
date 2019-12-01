@@ -22,8 +22,10 @@ export const createBackgroundLayer = (backgrounds, sprites) => {
   }
 }
 
-export const createSpriteLayer = (entity) => {
+export const createSpriteLayer = (entities) => {
   return function drawSpriteLayer(context) {
-    entity.draw(context)
+    entities.forEach(entity => {
+      entity.draw(context)
+    })
   }
 }
