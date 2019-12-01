@@ -1,5 +1,5 @@
-import SpriteSheet from './sprite_sheet.js'
 import * as loaders from './loaders.js'
+import * as spritesLoader from './sprite_loader.js'
 
 const drawBackground = (background, context, sprites) => {
   background.ranges.forEach(([x1, x2, y1, y2]) => {
@@ -14,16 +14,16 @@ const drawBackground = (background, context, sprites) => {
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
-loaders.loadImage('/images/tileset.png')
-  .then(image => {
-    const sprites = new SpriteSheet(image, 16, 16);
-    sprites.define('ground', 0, 0);
-    sprites.define('sky', 3, 23)
-
-    loaders.loadLevel('1-1')
-      .then(level => {
-        level.background.forEach(background => {
-          drawBackground(background, context, sprites)
-        })
-      })
+Promise.all([
+  spritesLoader.loadMarioSprite(),
+  spritesLoader.loadBackgroundSprites(),
+  loaders.loadLevel('1-1'),
+])
+  .then(([marioSprite, sprites, level]) => {
+    level.background.forEach(background => {
+      drawBackground(background, context, sprites)
+    })
+    
+    marioSprite.draw('idle', context, 64, 64)
   })
+
