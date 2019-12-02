@@ -2,6 +2,7 @@ import * as loaders from './loaders.js'
 import { createMario } from './entities.js'
 import Timer from './timer.js'
 import Keyboard from './keyboard_state.js'
+import { createCollisionLayer } from './layers.js'
 
 
 
@@ -17,6 +18,8 @@ Promise.all([
     const gravity = 2000
     mario.pos.set(64, 64)
 
+    createCollisionLayer(level)
+
     level.entities.add(mario)
 
     const SPACE = 32
@@ -27,10 +30,17 @@ Promise.all([
       } else {
         mario.jump.cancel()
       }
-      console.log(keyState)
     })
     input.listenTo(window)
 
+    // ['mousedown', 'mousemove'].forEach(eventName => {
+    //   canvas.addEventListener(eventName, event => {
+    //     if (event.buttons === 1) {
+    //       mario.vel.set(0, 0)
+    //       mario.pos.set(event.offsetX, event.offsetY)
+    //     }
+    //   })
+    // })
 
 
     const timer = new Timer(1/60)
@@ -42,4 +52,3 @@ Promise.all([
 
     timer.start()    
   })
-
