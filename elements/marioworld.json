@@ -30,11 +30,24 @@
     },
     {
       "name": "mystery-2",
-      "index": [24, 0]
+      "index": [25, 0]
     },
     {
       "name": "mystery-3",
-      "index": [24, 0]
+      "index": [26, 0]
+    }
+  ],
+  "animations": [
+    {
+      "name": "mystery",
+      "frameLength": 0.13,
+      "frames": [
+        "mystery-1", 
+        "mystery-1", 
+        "mystery-2", 
+        "mystery-3",
+        "mystery-2"
+      ]
     }
   ]
 }
