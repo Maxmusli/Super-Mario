@@ -1,4 +1,5 @@
 import Level from './level.js'
+import SpriteSheet from './sprite_sheet.js'
 import * as layers from './layers.js'
 import * as spritesLoader from './sprite_loader.js'
 
@@ -29,6 +30,7 @@ export const createTiles = (level, backgrounds) => {
       for (let y = yStart; y < yEnd; y++) {
         level.tiles.set(x, y, {
           name: background.tile,
+          type: background.type,
         })
       }
     }
@@ -50,12 +52,35 @@ export const createTiles = (level, backgrounds) => {
   })
 }
 
+const loadSpriteSheet = (name) => {
+  return loadJSON(`/elements/${name}.json`)
+    .then(sheetSpec => Promise.all([
+      sheetSpec,
+      loadImage(sheetSpec.imageURL),
+    ]))
+    .then(([sheetSpec, image]) => {
+      const sprites = new SpriteSheet(
+        image, 
+        sheetSpec.tileWidth, 
+        sheetSpec.tileHeight
+      );
+      sheetSpec.tiles.forEach(tileSpec => {
+        sprites.defineTile(
+          tileSpec.name, 
+          tileSpec.index[0], 
+          tileSpec.index[1]
+        )
+      })
+      return sprites
+    })
+}
+
 export const loadLevel = (name) => {
-  return Promise.all([
-    loadJSON(`levels/${name}.json`),
-    
-    spritesLoader.loadBackgroundSprites(),
-  ])
+  return loadJSON(`/levels/${name}.json`)
+    .then(levelSpec => Promise.all([
+      levelSpec,
+      loadSpriteSheet(levelSpec.spriteSheet),
+    ]))
     .then(([levelSpec, backgroundSprites]) => {
       const level = new Level()
 
