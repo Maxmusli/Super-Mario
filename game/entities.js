@@ -1,6 +1,5 @@
 import Entity from './entity.js'
 import * as spritesLoader from './sprite_loader.js'
-import Velocity from './traits/velocity.js'
 import Jump from './traits/jump.js'
 import Move from './traits/move.js'
 
