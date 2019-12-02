@@ -1,7 +1,6 @@
 import Level from './level.js'
 import SpriteSheet from './sprite_sheet.js'
 import * as layers from './layers.js'
-import * as spritesLoader from './sprite_loader.js'
 
 
 export const loadImage = (url) => {
@@ -52,7 +51,7 @@ export const createTiles = (level, backgrounds) => {
   })
 }
 
-const loadSpriteSheet = (name) => {
+export const loadSpriteSheet = (name) => {
   return loadJSON(`/elements/${name}.json`)
     .then(sheetSpec => Promise.all([
       sheetSpec,
@@ -64,13 +63,22 @@ const loadSpriteSheet = (name) => {
         sheetSpec.tileWidth, 
         sheetSpec.tileHeight
       );
-      sheetSpec.tiles.forEach(tileSpec => {
-        sprites.defineTile(
-          tileSpec.name, 
-          tileSpec.index[0], 
-          tileSpec.index[1]
-        )
-      })
+
+      if (sheetSpec.tiles) {
+        sheetSpec.tiles.forEach(tileSpec => {
+          sprites.defineTile(
+            tileSpec.name, 
+            tileSpec.index[0], 
+            tileSpec.index[1]
+          )
+        })
+      }
+
+      if (sheetSpec.frames) {
+        sheetSpec.frames.forEach(frameSpec => {
+          sprites.define(frameSpec.name, ...frameSpec.rect)
+        })
+      }
       return sprites
     })
 }
