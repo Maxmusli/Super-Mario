@@ -12,6 +12,10 @@ export const setupKeyboard = (entity) => {
     }
   })
   
+  input.addMapping('keyS', keyState => {
+    entity.move.forceDrag += keyState ? 1/5000 : 1/1500
+  })
+
   input.addMapping('ArrowRight', keyState => {
     entity.move.dir += keyState ? 1 : -1
   })

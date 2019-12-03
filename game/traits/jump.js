@@ -3,12 +3,13 @@ import { Trait, Sides } from '../entity.js'
 export default class Jump extends Trait {
   constructor() {
     super('jump')
-    this.duration = 0.5
+    this.duration = 0.3
     this.velocity = 200
     this.engageTime = 0
     this.readyToJump = false
     this.requestTime = 0
     this.gracePeriod = 0.1
+    this.speedBoost = 0.3
   }
 
   start() {
@@ -39,7 +40,7 @@ export default class Jump extends Trait {
     }
 
     if (this.engageTime > 0) {
-      entity.vel.y = -this.velocity
+      entity.vel.y = -(this.velocity + Math.abs(entity.vel.x) * this.speedBoost)
       this.engageTime -= deltaTime
     }
 

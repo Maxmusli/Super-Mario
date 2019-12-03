@@ -4,7 +4,7 @@ import TileCollider from './tile_collider.js'
 
 export default class Level {
   constructor() {
-    this.gravity = 2000
+    this.gravity = 1700
     this.totalTime = 0
 
     this.comp = new Compositor()

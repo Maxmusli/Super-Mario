@@ -17,7 +17,9 @@ export default class Move extends Trait {
     const absVelX = Math.abs(entity.vel.x)
     if (this.dir !== 0) {
       entity.vel.x += this.accel * this.dir * deltaTime
-      this.head = this.dir
+      // if (entity.readyToJump !== false) {
+        this.head = this.dir
+      // }
     } else if (entity.vel.x !== 0) {
       const deceleration = Math.min(absVelX, this.decel * deltaTime)
       entity.vel.x += entity.vel.x > 0 ? -deceleration : deceleration
