@@ -15,7 +15,7 @@ export const createMario = () => {
 
       const runAnimation = createAnimation(['run-1', 'run-2', 'run-3'], 10)
       const routeFrame = (mario) => {
-        if (mario.move.dir !== 0) {
+        if (mario.move.distance > 0) {
           return runAnimation(mario.move.distance)
         }
 
