@@ -19,10 +19,10 @@ Promise.all([
 
     mario.pos.set(64, 64)
 
-    level.comp.layers.push(
-      createCollisionLayer(level),
-      createCameraLayer(camera)
-    )
+    // level.comp.layers.push(
+    //   createCollisionLayer(level),
+    //   createCameraLayer(camera)
+    // )
 
     level.entities.add(mario)
 
@@ -31,10 +31,12 @@ Promise.all([
 
     setupMouseControl(canvas, mario, camera)
 
+    
     const timer = new Timer(1/60)
     timer.update = function update(deltaTime) {
       level.update(deltaTime)
       level.comp.draw(context, camera)
+      if (mario.pos.x > 100) camera.pos.x = mario.pos.x - 100
     }
 
     timer.start()    

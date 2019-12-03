@@ -13,11 +13,11 @@ export const setupKeyboard = (entity) => {
   })
   
   input.addMapping('ArrowRight', keyState => {
-    entity.move.dir = keyState
+    entity.move.dir += keyState ? 1 : -1
   })
   
   input.addMapping('ArrowLeft', keyState => {
-    entity.move.dir = -keyState
+    entity.move.dir += keyState ? -1 : 1
   })
 
   return input
