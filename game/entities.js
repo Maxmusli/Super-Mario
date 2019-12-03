@@ -15,7 +15,14 @@ export const createMario = () => {
 
       const runAnimation = createAnimation(['run-1', 'run-2', 'run-3'], 10)
       const routeFrame = (mario) => {
+        if (!mario.jump.readyToJump) {
+          return 'jump'
+        }
+        
         if (mario.move.distance > 0) {
+          if ((mario.vel.x > 0 && mario.move.dir < 0) || (mario.vel.x < 0 && mario.move.dir > 0)) {
+            return 'break'
+          }
           return runAnimation(mario.move.distance)
         }
 
