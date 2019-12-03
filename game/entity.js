@@ -1,5 +1,10 @@
 import * as math from './math.js'
 
+export const Sides = {
+  TOP: Symbol('top'),
+  BOTTOM: Symbol('bottom')
+}
+
 export class Trait {
   constructor(name) {
     this.NAME = name
