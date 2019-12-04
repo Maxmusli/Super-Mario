@@ -4,6 +4,9 @@ import Move from './traits/move.js'
 import { loadSpriteSheet } from './loaders.js'
 import { createAnimation } from './animation.js'
 
+const FAST = 1/5000
+const SLOW = 1/1000
+
 export const createMario = () => {
   return loadSpriteSheet('mario') 
     .then(sprite => {
@@ -11,14 +14,19 @@ export const createMario = () => {
       mario.size.set(14, 16)
 
       mario.addTrait(new Move())
+      mario.move.forceDrag = SLOW
       mario.addTrait(new Jump())
 
-      const runAnimation = createAnimation(['run-1', 'run-2', 'run-3'], 10)
+      mario.sprint = function setSprintState(sprintOn) {
+        this.move.forceDrag = sprintOn ? FAST : SLOW
+      }
+
+      const runAnimation = createAnimation(['run-1', 'run-2', 'run-3'], 6)
       const routeFrame = (mario) => {
         if (!mario.jump.readyToJump) {
           return 'jump'
         }
-        
+
         if (mario.move.distance > 0) {
           if ((mario.vel.x > 0 && mario.move.dir < 0) || (mario.vel.x < 0 && mario.move.dir > 0)) {
             return 'break'
