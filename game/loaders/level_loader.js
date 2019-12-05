@@ -23,13 +23,23 @@ export const loadLevel = (name) => {
     })
 }
 
+const expandSpan = (xStart, xLength, yStart, yLength) => {
+  let coord = []
+  const xEnd = xStart + xLength
+  const yEnd = yStart + yLength
+  for (let x = xStart; x < xEnd; x++) {
+    for (let y = yStart; y < yEnd; y++) {
+      coord.push({x, y})
+    }
+  }
+
+  return coord
+}
+
 export const createTiles = (level, tiles, patterns, offsetX = 0, offsetY = 0) => {
 
   const applyRange = (tile, xStart, xLength, yStart, yLength) => {
-    const xEnd = xStart + xLength
-    const yEnd = yStart + yLength
-    for (let x = xStart; x < xEnd; x++) {
-      for (let y = yStart; y < yEnd; y++) {
+    for (const {x, y} of expandSpan(xStart, xLength, yStart, yLength)) {
         const derivedX = x + offsetX
         const derivedY = y + offsetY
         if (tile.pattern) {
@@ -43,7 +53,6 @@ export const createTiles = (level, tiles, patterns, offsetX = 0, offsetY = 0) =>
             type: tile.type,
           })
         }
-      }
     }
   }
 
