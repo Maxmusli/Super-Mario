@@ -21,17 +21,26 @@ const loadJSON = (url) => {
 }
 
 
-export const createTiles = (level, backgrounds) => {
+export const createTiles = (level, backgrounds, patterns, offsetX = 0, offsetY = 0) => {
 
   const applyRange = (background, xStart, xLength, yStart, yLength) => {
     const xEnd = xStart + xLength
     const yEnd = yStart + yLength
     for (let x = xStart; x < xEnd; x++) {
       for (let y = yStart; y < yEnd; y++) {
-        level.tiles.set(x, y, {
-          name: background.tile,
-          type: background.type,
-        })
+        const derivedX = x + offsetX
+        const derivedY = y + offsetY
+        if (background.pattern) {
+          console.log('pattern detected', patterns[background.pattern])
+          const backgrounds = patterns[background.pattern].backgrounds
+          createTiles(level, backgrounds, patterns, derivedX, derivedY)
+        } else {
+
+          level.tiles.set(derivedX, derivedY, {
+            name: background.tile,
+            type: background.type,
+          })
+        }
       }
     }
   }
@@ -100,7 +109,7 @@ export const loadLevel = (name) => {
     .then(([levelSpec, backgroundSprites]) => {
       const level = new Level()
 
-      createTiles(level, levelSpec.backgrounds)
+      createTiles(level, levelSpec.backgrounds, levelSpec.patterns)
 
       const backgroundLayer = layers.createBackgroundLayer(level, backgroundSprites)
       level.comp.layers.push(backgroundLayer)
