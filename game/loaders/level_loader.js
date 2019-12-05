@@ -11,7 +11,12 @@ export const loadLevel = (name) => {
     .then(([levelSpec, backgroundSprites]) => {
       const level = new Level()
 
-      createTiles(level, levelSpec.tiles, levelSpec.patterns)
+      for (const {tile, x, y} of expandTiles(levelSpec.tiles, levelSpec.patterns)) {
+        level.tiles.set(x, y, {
+          name: tile.name,
+          type: tile.type,
+        })
+      }
 
       const backgroundLayer = layers.createBackgroundLayer(level, backgroundSprites)
       level.comp.layers.push(backgroundLayer)
@@ -36,38 +41,48 @@ const expandSpan = (xStart, xLength, yStart, yLength) => {
   return coord
 }
 
-export const createTiles = (level, tiles, patterns, offsetX = 0, offsetY = 0) => {
+const expandRange = (range) => {
+  if (range.length === 4) {
+    const [xStart, xLength, yStart, yLength] = range
+    return expandSpan(xStart, xLength, yStart, yLength)
+  } else if (range.length === 3) {
+    const [xStart, xLength, yStart] = range
+    return expandSpan(xStart, xLength, yStart, 1)
+  } else if (range.length === 2) {
+    const [xStart, yStart] = range
+    return expandSpan(xStart, 1, yStart, 1)
+  }
+}
 
-  const applyRange = (tile, xStart, xLength, yStart, yLength) => {
-    for (const {x, y} of expandSpan(xStart, xLength, yStart, yLength)) {
+function* expandRanges(ranges) {
+  for (const range of ranges) {
+    for (const item of expandRange(range)) {
+      yield item
+    }
+  }
+}
+
+export const expandTiles = (tiles, patterns) => {
+  const expandedTiles = []
+  const walkTiles = (tiles, offsetX, offsetY) => {
+    tiles.forEach(tile => {
+      for (const { x, y } of expandRanges(tile.ranges)) {
         const derivedX = x + offsetX
         const derivedY = y + offsetY
         if (tile.pattern) {
-          console.log('pattern detected', patterns[tile.pattern])
           const tiles = patterns[tile.pattern].tiles
-          createTiles(level, tiles, patterns, derivedX, derivedY)
+          walkTiles(tiles, derivedX, derivedY)
         } else {
-
-          level.tiles.set(derivedX, derivedY, {
-            name: tile.name,
-            type: tile.type,
+          expandedTiles.push({
+            tile,
+            x: derivedX,
+            y: derivedY
           })
         }
-    }
-  }
-
-  tiles.forEach(tile => {
-    tile.ranges.forEach(range => {
-      if (range.length === 4) {
-        const [xStart, xLength, yStart, yLength] = range
-        applyRange(tile, xStart, xLength, yStart, yLength)
-      } else if (range.length === 3) {
-        const [xStart, xLength, yStart] = range
-        applyRange(tile, xStart, xLength, yStart, 1)
-      } else if (range.length === 2) {
-        const [xStart, yStart] = range
-        applyRange(tile, xStart, 1, yStart, 1)
       }
     })
-  })
+  }
+
+  walkTiles(tiles, 0, 0)
+  return expandedTiles
 }
