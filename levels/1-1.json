@@ -1,9 +1,9 @@
 {
   "spriteSheet": "marioworld",
 
-  "backgrounds": [
+  "tiles": [
     {
-      "tile": "sky",
+      "name": "sky",
       "ranges": [
         [
           0 ,250, 
@@ -12,7 +12,7 @@
       ]
     },
     {
-      "tile": "ground",
+      "name": "ground",
       "type": "ground",
       "ranges": [
         [
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "tile": "sky",
+      "name": "sky",
       "ranges": [
         [
           75,
@@ -45,7 +45,7 @@
       ]
     },
     {
-      "tile": "ground",
+      "name": "ground",
       "type": "ground",
       "ranges": [
         [
@@ -95,7 +95,7 @@
       ]
     },
     {
-      "tile": "brick",
+      "name": "brick",
       "type": "ground",
       "ranges": [
         [
@@ -154,7 +154,7 @@
       ]
     },
     {
-      "tile": "mystery",
+      "name": "mystery",
       "type": "ground",
       "ranges": [
         [
@@ -213,7 +213,7 @@
       ]
     },
     {
-      "tile": "block",
+      "name": "block",
       "type": "ground",
       "ranges": [
         [
@@ -362,6 +362,7 @@
     {
       "pattern": "cloud-single",
       "ranges": [
+        [2, 2],
         [25, 2],
         [35, 3],
         [44, 2],
@@ -378,9 +379,9 @@
   ],
   "patterns": {
     "pipe-section-vert": {
-      "backgrounds": [
+      "tiles": [
         {
-          "tile": "pipe-vert-left",
+          "name": "pipe-vert-left",
           "type": "ground",
           "ranges": [
             [
@@ -390,7 +391,7 @@
           ]
         },
         {
-          "tile": "pipe-vert-right",
+          "name": "pipe-vert-right",
           "type": "ground",
           "ranges": [
             [
@@ -402,9 +403,9 @@
       ]
     },
     "pipe-cap-vert": {
-      "backgrounds": [
+      "tiles": [
         {
-          "tile": "pipe-insert-vert-left",
+          "name": "pipe-insert-vert-left",
           "type": "ground",
           "ranges": [
             [
@@ -414,7 +415,7 @@
           ]
         },
         {
-          "tile": "pipe-insert-vert-right",
+          "name": "pipe-insert-vert-right",
           "type": "ground",
           "ranges": [
             [
@@ -426,7 +427,7 @@
       ]
     },
     "pipe-2h": {
-      "backgrounds": [
+      "tiles": [
         {
           "pattern": "pipe-cap-vert",
           "ranges": [
@@ -448,7 +449,7 @@
       ]
     },
     "pipe-3h": {
-      "backgrounds": [
+      "tiles": [
         {
           "pattern": "pipe-cap-vert",
           "ranges": [
@@ -470,7 +471,7 @@
       ]
     },
     "pipe-4h": {
-      "backgrounds": [
+      "tiles": [
         {
           "pattern": "pipe-cap-vert",
           "ranges": [
@@ -492,39 +493,39 @@
       ]
     },
     "cloud-single": {
-      "backgrounds": [
+      "tiles": [
         {
-          "tile": "cloud-1-1",
+          "name": "cloud-1-1",
           "ranges": [
             [0, 0]
           ]
         },
         {
-          "tile": "cloud-1-2",
+          "name": "cloud-1-2",
           "ranges": [
             [1, 0]
           ]
         },
         {
-          "tile": "cloud-1-3",
+          "name": "cloud-1-3",
           "ranges": [
             [2, 0]
           ]
         },
         {
-          "tile": "cloud-2-1",
+          "name": "cloud-2-1",
           "ranges": [
             [0, 1]
           ]
         },
         {
-          "tile": "cloud-2-2",
+          "name": "cloud-2-2",
           "ranges": [
             [1, 1]
           ]
         },
         {
-          "tile": "cloud-2-3",
+          "name": "cloud-2-3",
           "ranges": [
             [2, 1]
           ]
