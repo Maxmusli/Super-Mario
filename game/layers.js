@@ -10,10 +10,6 @@ export const createBackgroundLayer = (level, sprites) => {
 
   let startIndex, endIndex
   const redraw = (drawFrom, drawTo) => {
-    // if (drawFrom === startIndex && drawTo === endIndex) {
-    //   return
-    // }
-
     startIndex = drawFrom
     endIndex = drawTo
      
