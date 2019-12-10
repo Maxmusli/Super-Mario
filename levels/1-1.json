@@ -95,7 +95,11 @@
               7
             ]
           ]
-        },
+        }
+      ]
+    },
+    {
+      "tiles": [
         {
           "name": "brick",
           "type": "ground",
@@ -339,11 +343,7 @@
               12
             ]
           ]
-        }
-      ]
-    },
-    {
-      "tiles": [
+        },
         {
           "pattern": "pipe-2h",
           "ranges": [
