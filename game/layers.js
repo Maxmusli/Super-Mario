@@ -10,7 +10,8 @@ export const createBackgroundLayer = (level, tiles, sprites) => {
   const context = buffer.getContext('2d')
 
   const redraw = (startIndex, endIndex) => {
-     
+    context.clearRect(0, 0, buffer.width, buffer.height)
+
     for (let x = startIndex; x <= endIndex; x++) {
       const col = tiles.grid[x]
       if (col) {

@@ -12,12 +12,17 @@ export const loadLevel = (name) => {
     .then(([levelSpec, backgroundSprites]) => {
       const level = new Level()
 
-      const collisionGrid = createCollisionGrid(levelSpec.tiles, levelSpec.patterns)
+      const mergedTiles = levelSpec.layers.reduce((mergedTiles, layerSpec) => {
+        return mergedTiles.concat(layerSpec.tiles)
+      }, [])
+      const collisionGrid = createCollisionGrid(mergedTiles, levelSpec.patterns)
       level.setCollisionGrid(collisionGrid)
 
-      const backgroundGrid = createBackgroundGrid(levelSpec.tiles, levelSpec.patterns)
-      const backgroundLayer = layers.createBackgroundLayer(level, backgroundGrid, backgroundSprites)
-      level.comp.layers.push(backgroundLayer)
+      levelSpec.layers.forEach(layer => {
+        const backgroundGrid = createBackgroundGrid(layer.tiles, levelSpec.patterns)
+        const backgroundLayer = layers.createBackgroundLayer(level, backgroundGrid, backgroundSprites)
+        level.comp.layers.push(backgroundLayer)
+      })
 
       const spriteLayer = layers.createSpriteLayer(level.entities)
       level.comp.layers.push(spriteLayer)
@@ -87,7 +92,7 @@ function* expandRanges(ranges) {
 export const expandTiles = (tiles, patterns) => {
   const expandedTiles = []
   const walkTiles = (tiles, offsetX, offsetY) => {
-    tiles.forEach(tile => {
+    for (const tile of tiles) {
       for (const { x, y } of expandRanges(tile.ranges)) {
         const derivedX = x + offsetX
         const derivedY = y + offsetY
@@ -102,7 +107,7 @@ export const expandTiles = (tiles, patterns) => {
           })
         }
       }
-    })
+    }
   }
 
   walkTiles(tiles, 0, 0)
