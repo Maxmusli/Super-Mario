@@ -1,6 +1,7 @@
-export const createBackgroundLayer = (level, sprites) => {
-  const tiles = level.tiles
-  const resolver = level.tileCollider.tiles
+import TileResolver from './tile_resolver.js'
+
+export const createBackgroundLayer = (level, tiles, sprites) => {
+  const resolver = new TileResolver(tiles)
   
   const buffer = document.createElement('canvas')
   buffer.width = 256 + 16;
@@ -8,10 +9,7 @@ export const createBackgroundLayer = (level, sprites) => {
 
   const context = buffer.getContext('2d')
 
-  let startIndex, endIndex
-  const redraw = (drawFrom, drawTo) => {
-    startIndex = drawFrom
-    endIndex = drawTo
+  const redraw = (startIndex, endIndex) => {
      
     for (let x = startIndex; x <= endIndex; x++) {
       const col = tiles.grid[x]

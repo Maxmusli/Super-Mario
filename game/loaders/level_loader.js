@@ -1,5 +1,6 @@
 import Level from '../level.js'
 import * as layers from '../layers.js'
+import { Matrix } from '../math.js'
 import { loadJSON, loadSpriteSheet } from '../loaders.js'
  
 export const loadLevel = (name) => {
@@ -11,14 +12,11 @@ export const loadLevel = (name) => {
     .then(([levelSpec, backgroundSprites]) => {
       const level = new Level()
 
-      for (const {tile, x, y} of expandTiles(levelSpec.tiles, levelSpec.patterns)) {
-        level.tiles.set(x, y, {
-          name: tile.name,
-          type: tile.type,
-        })
-      }
+      const collisionGrid = createCollisionGrid(levelSpec.tiles, levelSpec.patterns)
+      level.setCollisionGrid(collisionGrid)
 
-      const backgroundLayer = layers.createBackgroundLayer(level, backgroundSprites)
+      const backgroundGrid = createBackgroundGrid(levelSpec.tiles, levelSpec.patterns)
+      const backgroundLayer = layers.createBackgroundLayer(level, backgroundGrid, backgroundSprites)
       level.comp.layers.push(backgroundLayer)
 
       const spriteLayer = layers.createSpriteLayer(level.entities)
@@ -26,6 +24,30 @@ export const loadLevel = (name) => {
 
       return level
     })
+}
+
+const createCollisionGrid = (tiles, patterns) => {
+  const grid = new Matrix()
+
+  for (const { tile, x, y } of expandTiles(tiles, patterns)) {
+    grid.set(x, y, {
+      type: tile.type,
+    })
+  }
+
+  return grid
+}
+
+const createBackgroundGrid = (tiles, patterns) => {
+  const grid = new Matrix()
+
+  for (const { tile, x, y } of expandTiles(tiles, patterns)) {
+    grid.set(x, y, {
+      name: tile.name,
+    })
+  }
+
+  return grid
 }
 
 const expandSpan = (xStart, xLength, yStart, yLength) => {
