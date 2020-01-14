@@ -2,6 +2,7 @@ import Timer from './timer.js'
 import Camera from './camera.js'
 import { loadMario } from './entities/Mario.js'
 import { loadGoomba } from './entities/Goomba.js'
+import { loadKoopa } from './entities/Koopa.js'
 import { setupKeyboard } from './input.js'
 import { createCollisionLayer, createCameraLayer } from './layers.js'
 import { setupMouseControl } from './debug.js'
@@ -13,9 +14,10 @@ const context = canvas.getContext('2d');
 Promise.all([
   loadMario(),
   loadGoomba(),
+  loadKoopa(),
   loadLevel('1-1'),
 ])
-  .then(([createMario, createGoomba, level]) => {
+  .then(([createMario, createGoomba, createKoopa, level]) => {
     const camera = new Camera();
     window.camera = camera;
 
@@ -25,8 +27,12 @@ Promise.all([
     const goomba = createGoomba();
     goomba.pos.x = 220;
 
+    const koopa = createKoopa();
+    koopa.pos.x = 250;
+
     level.entities.add(mario);
     level.entities.add(goomba);
+    level.entities.add(koopa)
 
     const input = setupKeyboard(mario);
     input.listenTo(window)
