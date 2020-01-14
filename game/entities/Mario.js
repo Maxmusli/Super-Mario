@@ -12,8 +12,6 @@ export const loadMario = () => {
     .then(createMarioFactory)
 }
 
-
-
 function createMarioFactory(sprite) {
   const runAnimation = sprite.animations.get('run');
   const routeFrame = (mario) => {
@@ -45,12 +43,13 @@ function createMarioFactory(sprite) {
     mario.size.set(14, 16)
 
     mario.addTrait(new Move())
-    mario.move.forceDrag = SLOW
     mario.addTrait(new Jump())
 
     mario.sprint = setSprintState;
 
     mario.draw = drawMario;
+
+    mario.sprint(false)
 
     return mario
   }
