@@ -1,47 +1,13 @@
-import Entity from './entity.js'
-import Jump from './traits/jump.js'
-import Move from './traits/move.js'
-import { loadSpriteSheet } from './loaders.js'
-import { createAnimation } from './animation.js'
+import { loadMario } from './entities/Mario.js';
+import { loadGoomba } from './entities/Goomba.js';
+import { loadKoopa } from './entities/Koopa.js';
 
-const FAST = 1/5000
-const SLOW = 1/1000
+export function loadEntities() {
+  const entityFactories = {};
 
-export const createMario = () => {
-  return loadSpriteSheet('mario') 
-    .then(sprite => {
-      const mario = new Entity()
-      mario.size.set(14, 16)
-
-      mario.addTrait(new Move())
-      mario.move.forceDrag = SLOW
-      mario.addTrait(new Jump())
-
-      mario.sprint = function setSprintState(sprintOn) {
-        this.move.forceDrag = sprintOn ? FAST : SLOW
-      }
-
-      const runAnimation = createAnimation(['run-1', 'run-2', 'run-3'], 6)
-      const routeFrame = (mario) => {
-        if (!mario.jump.readyToJump) {
-          return 'jump'
-        }
-
-        if (mario.move.distance > 0) {
-          if ((mario.vel.x > 0 && mario.move.dir < 0) || (mario.vel.x < 0 && mario.move.dir > 0)) {
-            return 'break'
-          }
-          return runAnimation(mario.move.distance)
-        }
-
-        return 'idle'
-      }
-
-      mario.draw = function drawMario(context) {
-        sprite.draw(routeFrame(this), context, 0, 0, this.move.head < 0)
-    
-      }
-    
-      return mario
-    })
+  return Promise.all([
+    loadMario(),
+    loadGoomba(),
+    loadKoopa(),
+  ]);
 }

@@ -26,6 +26,7 @@ export default class Entity {
     this.pos = new math.Vec2(0, 0);
     this.vel = new math.Vec2(0, 0);
     this.size = new math.Vec2(0, 0);
+    this.offset = new math.Vec2(0, 0);
     this.lifeTime = 0;
 
     this.traits = [];
