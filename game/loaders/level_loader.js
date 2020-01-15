@@ -2,6 +2,34 @@ import Level from '../level.js'
 import * as layers from '../layers.js'
 import { Matrix } from '../math.js'
 import { loadJSON, loadSpriteSheet } from '../loaders.js'
+
+function setupCollision(levelSpec, level) {
+  const mergedTiles = levelSpec.layers.reduce((mergedTiles, layerSpec) => {
+    return mergedTiles.concat(layerSpec.tiles)
+  }, [])
+  const collisionGrid = createCollisionGrid(mergedTiles, levelSpec.patterns)
+  level.setCollisionGrid(collisionGrid)
+}
+
+function setupBackground(levelSpec, level, backgroundSprites) {
+  levelSpec.layers.forEach(layer => {
+    const backgroundGrid = createBackgroundGrid(layer.tiles, levelSpec.patterns)
+    const backgroundLayer = layers.createBackgroundLayer(level, backgroundGrid, backgroundSprites)
+    level.comp.layers.push(backgroundLayer)
+  })
+}
+
+function setupEntities(levelSpec, level) {
+  // levelSpec.entities.forEach(entitySpec => {
+  //   const name = entitySpec.name;
+  //   const pos = entitySpec.pos;
+  //   const [x, y] = pos;
+    
+  // })
+
+  const spriteLayer = layers.createSpriteLayer(level.entities)
+  level.comp.layers.push(spriteLayer)
+}
  
 export const loadLevel = (name) => {
   return loadJSON(`/levels/${name}.json`)
@@ -12,20 +40,11 @@ export const loadLevel = (name) => {
     .then(([levelSpec, backgroundSprites]) => {
       const level = new Level()
 
-      const mergedTiles = levelSpec.layers.reduce((mergedTiles, layerSpec) => {
-        return mergedTiles.concat(layerSpec.tiles)
-      }, [])
-      const collisionGrid = createCollisionGrid(mergedTiles, levelSpec.patterns)
-      level.setCollisionGrid(collisionGrid)
+      setupCollision(levelSpec, level);
 
-      levelSpec.layers.forEach(layer => {
-        const backgroundGrid = createBackgroundGrid(layer.tiles, levelSpec.patterns)
-        const backgroundLayer = layers.createBackgroundLayer(level, backgroundGrid, backgroundSprites)
-        level.comp.layers.push(backgroundLayer)
-      })
+      setupBackground(levelSpec, level, backgroundSprites);
 
-      const spriteLayer = layers.createSpriteLayer(level.entities)
-      level.comp.layers.push(spriteLayer)
+      setupEntities(levelSpec, level);
 
       return level
     })
