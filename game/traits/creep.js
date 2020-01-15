@@ -12,6 +12,11 @@ export default class Creep extends Trait {
     this.dead = true;
   }
 
+  revive() {
+    this.dead = false;
+    this.deadTime = 0;
+  }
+
   update(entity, deltaTime, level) {
     if (this.dead) {
       this.deadTime += deltaTime;

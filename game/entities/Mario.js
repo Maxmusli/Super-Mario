@@ -49,6 +49,8 @@ function createMarioFactory(sprite) {
     mario.addTrait(new Stomper());
     mario.addTrait(new Creep());
 
+    mario.creep.removeAfter = 0;
+
     mario.sprint = setSprintState;
 
     mario.draw = drawMario;
