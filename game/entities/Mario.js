@@ -1,8 +1,9 @@
-import Entity from '../entity.js'
-import Jump from '../traits/jump.js'
-import Move from '../traits/move.js'
-import { loadSpriteSheet } from '../loaders.js'
-import { createAnimation } from '../animation.js'
+import Entity from '../entity.js';
+import Jump from '../traits/jump.js';
+import Move from '../traits/move.js';
+import Stomper from '../traits/stomper.js';
+import { loadSpriteSheet } from '../loaders.js';
+import { createAnimation } from '../animation.js';
 
 const FAST = 1 / 5000
 const SLOW = 1 / 1000
@@ -44,6 +45,7 @@ function createMarioFactory(sprite) {
 
     mario.addTrait(new Move())
     mario.addTrait(new Jump())
+    mario.addTrait(new Stomper())
 
     mario.sprint = setSprintState;
 

@@ -1,5 +1,6 @@
-import Entity, {Sides} from '../entity.js';
+import Entity, {Sides, Trait} from '../entity.js';
 import CreepWalk from '../traits/creepWalk.js';
+import Creep from '../traits/creep.js';
 import { loadSpriteSheet } from '../loaders.js';
 
 export function loadGoomba() {
@@ -7,11 +8,33 @@ export function loadGoomba() {
     .then(createGoombaFactory);
 }
 
+class Behavior extends Trait {
+  constructor() {
+    super('behavior')
+
+  }
+
+  collides(us, them) {
+    if (them.stomper) {
+      us.creep.kill();
+      them.stomper.bounce();
+      us.creepWalk.speed = 0;
+    }
+  }
+}
+
 function createGoombaFactory(sprite) {
   const walkAnim = sprite.animations.get('walk');
 
+  function routeAnim(goomba) {
+    if (goomba.creep.dead) {
+      return 'flat';
+    }
+    return walkAnim(goomba.lifeTime);
+  }
+
   function drawGoomba(context) {
-    sprite.draw(walkAnim(this.lifeTime), context, 0, 0);
+    sprite.draw(routeAnim(this), context, 0, 0);
   }
 
   return function createGoomba() {
@@ -20,6 +43,14 @@ function createGoombaFactory(sprite) {
 
     goomba.addTrait(
       new CreepWalk()
+    )
+
+    goomba.addTrait(
+      new Behavior()
+    )
+
+    goomba.addTrait(
+      new Creep()
     )
 
     goomba.draw = drawGoomba;
