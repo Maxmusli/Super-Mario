@@ -1,6 +1,8 @@
 import Entity, { Sides, Trait } from '../entity.js';
 import CreepWalk from '../traits/creepWalk.js';
 import Creep from '../traits/creep.js';
+import Solid from '../traits/solid.js';
+import Physics from '../traits/physics.js'
 import { loadSpriteSheet } from '../loaders.js';
 
 export function loadKoopa() {
@@ -41,7 +43,7 @@ class Behavior extends Trait {
     } else if (this.state === STATE_HIDING) {
       us.creep.kill();
       us.vel.set(100, -200);
-      us.canCollide = false;
+      us.solid.obstructs = false;
     } else if (this.state === STATE_PANIC) {
       this.hide(us);
     }
@@ -125,6 +127,8 @@ function createKoopaFactory(sprite) {
     koopa.addTrait(new CreepWalk());
     koopa.addTrait(new Behavior());
     koopa.addTrait(new Creep());
+    koopa.addTrait(new Solid());
+    koopa.addTrait(new Physics());
 
     koopa.draw = drawKoopa;
     return koopa;

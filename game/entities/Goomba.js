@@ -1,6 +1,8 @@
 import Entity, {Sides, Trait} from '../entity.js';
 import CreepWalk from '../traits/creepWalk.js';
 import Creep from '../traits/creep.js';
+import Solid from '../traits/solid.js';
+import Physics from '../traits/physics.js'
 import { loadSpriteSheet } from '../loaders.js';
 
 export function loadGoomba() {
@@ -46,17 +48,11 @@ function createGoombaFactory(sprite) {
     const goomba = new Entity();
     goomba.size.set(16, 16);
 
-    goomba.addTrait(
-      new CreepWalk()
-    )
-
-    goomba.addTrait(
-      new Behavior()
-    )
-
-    goomba.addTrait(
-      new Creep()
-    )
+    goomba.addTrait(new CreepWalk())
+    goomba.addTrait(new Behavior())
+    goomba.addTrait(new Creep())
+    goomba.addTrait(new Solid())
+    goomba.addTrait(new Physics())
 
     goomba.draw = drawGoomba;
     return goomba;

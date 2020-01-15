@@ -3,6 +3,8 @@ import Jump from '../traits/jump.js';
 import Move from '../traits/move.js';
 import Stomper from '../traits/stomper.js';
 import Creep from '../traits/creep.js';
+import Solid from '../traits/solid.js';
+import Physics from '../traits/physics.js'
 import { loadSpriteSheet } from '../loaders.js';
 import { createAnimation } from '../animation.js';
 
@@ -44,10 +46,12 @@ function createMarioFactory(sprite) {
     const mario = new Entity();
     mario.size.set(14, 16);
 
+    mario.addTrait(new Solid());
     mario.addTrait(new Move());
     mario.addTrait(new Jump());
     mario.addTrait(new Stomper());
     mario.addTrait(new Creep());
+    mario.addTrait(new Physics());
 
     mario.creep.removeAfter = 0;
 
