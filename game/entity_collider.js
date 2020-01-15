@@ -4,6 +4,13 @@ export default class EntityCollider {
   }
 
   check(subject) {
-    console.log(subject)
+    this.entities.forEach(canditate => {
+      if (subject === canditate) return  
+
+      if (subject.bounds.overlaps(canditate.bounds)) {
+        subject.collides(canditate);
+        canditate.collides(subject);
+      }
+    })
   }
 }
