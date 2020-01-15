@@ -13,7 +13,9 @@ export default class Stomper extends Trait {
   }
 
   collides(us, them) {
-    if (them.creep && us.vel.y > them.vel.y) {
+    if (!them.creep || them.creep.dead) return;
+      
+    if (us.vel.y > them.vel.y) {
       this.bounce(us, them);
     }
   }
