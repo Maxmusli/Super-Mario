@@ -15,10 +15,16 @@ class Behavior extends Trait {
   }
 
   collides(us, them) {
+    if (us.creep.dead) return;
+
     if (them.stomper) {
-      us.creep.kill();
-      them.stomper.bounce();
-      us.creepWalk.speed = 0;
+      if (them.vel.y > us.vel.y) {
+        us.creep.kill();
+        them.stomper.bounce();
+        us.creepWalk.speed = 0;
+      } else {
+        them.creep.kill();
+      }
     }
   }
 }

@@ -2,6 +2,7 @@ import Entity from '../entity.js';
 import Jump from '../traits/jump.js';
 import Move from '../traits/move.js';
 import Stomper from '../traits/stomper.js';
+import Creep from '../traits/creep.js';
 import { loadSpriteSheet } from '../loaders.js';
 import { createAnimation } from '../animation.js';
 
@@ -40,19 +41,20 @@ function createMarioFactory(sprite) {
   }
 
   return function createMario() {
-    const mario = new Entity()
-    mario.size.set(14, 16)
+    const mario = new Entity();
+    mario.size.set(14, 16);
 
-    mario.addTrait(new Move())
-    mario.addTrait(new Jump())
-    mario.addTrait(new Stomper())
+    mario.addTrait(new Move());
+    mario.addTrait(new Jump());
+    mario.addTrait(new Stomper());
+    mario.addTrait(new Creep());
 
     mario.sprint = setSprintState;
 
     mario.draw = drawMario;
 
-    mario.sprint(false)
+    mario.sprint(false);
 
-    return mario
+    return mario;
   }
 }
