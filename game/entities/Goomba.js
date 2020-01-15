@@ -20,7 +20,6 @@ class Behavior extends Trait {
     if (them.stomper) {
       if (them.vel.y > us.vel.y) {
         us.creep.kill();
-        them.stomper.bounce();
         us.creepWalk.speed = 0;
       } else {
         them.creep.kill();

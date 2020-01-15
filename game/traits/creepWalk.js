@@ -3,6 +3,7 @@ import { Trait, Sides } from '../entity.js'
 export default class CreepWalk extends Trait {
   constructor() {
     super('creepWalk');
+    this.enabled = true;
     this.speed = -30;
   }
 
@@ -13,6 +14,9 @@ export default class CreepWalk extends Trait {
   }
 
   update(entity, deltaTime) {
-    entity.vel.x = this.speed;
+    if (this.enabled) {
+
+      entity.vel.x = this.speed;
+    }
   }
 }
