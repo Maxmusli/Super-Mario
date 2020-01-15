@@ -46,6 +46,14 @@
         "walk-1",
         "walk-2"
       ]
+    },
+    {
+      "name": "wake",
+      "frameLength": 0.15,
+      "frames": [
+        "hiding-with-legs",
+        "hiding"
+      ]
     }
   ]
 }

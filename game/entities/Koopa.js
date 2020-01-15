@@ -10,6 +10,7 @@ export function loadKoopa() {
 
 const STATE_WALKING = Symbol('walking');
 const STATE_HIDING = Symbol('hiding');
+const STATE_PANIC = Symbol('panic');
 
 class Behavior extends Trait {
   constructor() {
@@ -17,6 +18,9 @@ class Behavior extends Trait {
     this.state = STATE_WALKING;
     this.hideTime = 0;
     this.hideDuration = 5;
+
+    this.walkSpeed = null;
+    this.panicSpeed = 300;
   }
 
   collides(us, them) {
@@ -26,7 +30,7 @@ class Behavior extends Trait {
       if (them.vel.y > us.vel.y) {
         this.handleStomp(us, them);
       } else {
-        them.creep.kill();
+        this.handleSlide(us, them);
       }
     }
   }
@@ -37,19 +41,47 @@ class Behavior extends Trait {
     } else if (this.state === STATE_HIDING) {
       us.creep.kill();
       us.vel.set(100, -200);
+      us.canCollide = false;
+    } else if (this.state === STATE_PANIC) {
+      this.hide(us);
+    }
+  }
+
+  handleSlide(us, them) {
+    if (this.state === STATE_WALKING) {
+      them.creep.kill();
+    } else if (this.state === STATE_HIDING) {
+      this.panic(us, them);
+    } else if (this.state === STATE_PANIC) {
+      const travelDir = Math.sign(us.vel.x);
+      const impactDir = Math.sign(us.pos.x - them.pos.x);
+      if (travelDir !== 0 && travelDir !== impactDir) {
+        them.creep.kill();
+      }
     }
   }
 
   hide(us) {
     us.vel.x = 0;
     us.creepWalk.enabled = false;
+    if (this.walkSpeed === null) {
+      this.walkSpeed = us.creepWalk.speed;
+    }
+
     this.hideTime = 0;
     this.state = STATE_HIDING;
   }
 
   unhide(us) {
     us.creepWalk.enabled = true;
+    us.creepWalk.speed = this.walkSpeed;
     this.state = STATE_WALKING;
+  }
+
+  panic(us, them) {
+    us.creepWalk.enabled = true;
+    us.creepWalk.speed = this.panicSpeed * Math.sign(them.vel.x);
+    this.state = STATE_PANIC;
   }
 
   update(us, deltaTime) {
@@ -64,11 +96,20 @@ class Behavior extends Trait {
 
 function createKoopaFactory(sprite) {
   const walkAnim = sprite.animations.get('walk');
+  const wakeAnim = sprite.animations.get('wake');
 
   function routeAnim(koopa) {
     if (koopa.behavior.state === STATE_HIDING) {
+      if (koopa.behavior.hideTime > 3) {
+        return wakeAnim(koopa.behavior.hideTime)
+      }
       return 'hiding';
     }
+
+    if (koopa.behavior.state === STATE_PANIC) {
+      return 'hiding';
+    }
+    
     return walkAnim(koopa.lifeTime);
   }
 
