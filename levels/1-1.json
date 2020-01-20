@@ -570,7 +570,27 @@
     },
     {
       "name": "goomba",
-      "pos": [220, 0]
+      "pos": [300, 0]
+    },
+    {
+      "name": "goomba",
+      "pos": [400, 0]
+    },
+    {
+      "name": "goomba",
+      "pos": [430, 0]
+    },
+    {
+      "name": "goomba",
+      "pos": [600, 0]
+    },
+    {
+      "name": "goomba",
+      "pos": [620, 0]
+    },
+    {
+      "name": "goomba",
+      "pos": [700, 0]
     }
   ]
 }
