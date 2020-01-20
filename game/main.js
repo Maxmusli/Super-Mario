@@ -32,10 +32,10 @@ export default class GameMain {
         const mario = createMario();
     
         const goomba = createGoomba();
-        goomba.pos.x = 220;
+        // goomba.pos.x = 220;
     
         const koopa = createKoopa();
-        koopa.pos.x = 250;
+        // koopa.pos.x = 250;
     
         level.entities.add(goomba);
         level.entities.add(koopa);
