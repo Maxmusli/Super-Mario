@@ -7,7 +7,8 @@
   <title>Super Mario</title>
   <style>
     body {
-      background: white;
+      background: black;
+      color: white;
     }
 
     #screen {
@@ -18,27 +19,35 @@
     }
 
     .instruction {
-      color: black;
+      display: flex;
+      width: 500px;
+      justify-content: space-evenly;
+      margin: auto;
     }
 
-    /* canvas {
-      width: 256;
-      height: 240;
-    } */
+    h2 {
+      text-align: center;
+      font-size: 40px;
+      margin: 0;
+    }
+
   </style>
   <script type="module" src="/game/over_lay.js"></script>
 </head>
 <body>
-  <canvas id="screen" width="256" height="240"></canvas>
-  <div class="overlay">
-    <div class="play">Play</div>
+  <h2>Super Mario</h2>
+  <div>
+    <a href="">GitHub</a>
   </div>
   <div class="instruction">
-    <h2>Controls:</h2>
     <p>Jump: Space</p>
     <p>Sprint: S</p>
     <p>Left: Arrow Left</p>
     <p>Right: Arrow Right</p>
   </div>
+  <div class="overlay">
+    <div class="play">Play</div>
+  </div>
+  <canvas id="screen" width="256" height="240"></canvas>
 </body>
 </html>
