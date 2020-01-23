@@ -23,12 +23,52 @@
       width: 500px;
       justify-content: space-evenly;
       margin: auto;
+      font-size: 18px;
     }
 
     h2 {
       text-align: center;
       font-size: 40px;
       margin: 0;
+      font-weight: 700;
+    }
+
+    .links {
+      display: flex;
+      width: 200px;
+      justify-content: space-between;
+      margin: auto;
+      margin-top: 15px;
+    }
+
+    .links > a {
+      text-decoration: none;
+      color: white;
+      font-size: 25px;
+      font-weight: 400;
+    }
+
+    .links > a:hover {
+      color: yellow;
+    }
+
+    .play {
+      display: block;
+      margin: auto;
+      text-align: center;
+      border: 1px white solid;
+      width: 70px;
+    }
+
+    .play > p {
+      margin: 5px 5px;
+      font-size: 25px;
+    }
+
+    .play:hover {
+      cursor: pointer;
+      background: white;
+      color: black;
     }
 
   </style>
@@ -36,8 +76,9 @@
 </head>
 <body>
   <h2>Super Mario</h2>
-  <div>
-    <a href="">GitHub</a>
+  <div class="links">
+    <a href="https://github.com/Maxmusli">GitHub</a>
+    <a href="https://www.linkedin.com/in/maxmus-li/">LinkedIn</a>
   </div>
   <div class="instruction">
     <p>Jump: Space</p>
@@ -46,7 +87,9 @@
     <p>Right: Arrow Right</p>
   </div>
   <div class="overlay">
-    <div class="play">Play</div>
+    <div class="play">
+      <p>Play</p>
+    </div>
   </div>
   <canvas id="screen" width="256" height="240"></canvas>
 </body>
