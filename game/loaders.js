@@ -51,7 +51,7 @@ export const loadSpriteSheet = (name) => {
           sprites.defineAnimation(animationSpec.name, anim)
         })
       }
-      console.log(sprites)
+      // console.log(sprites)
       return sprites
     })
 }

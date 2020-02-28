@@ -26,6 +26,7 @@ export default class GameMain {
       loadLevel('1-1'),
     ])
       .then(([[createMario, createGoomba, createKoopa], level]) => {
+        debugger
         const camera = new Camera();
         window.camera = camera;
     
